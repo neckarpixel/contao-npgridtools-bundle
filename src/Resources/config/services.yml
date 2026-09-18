@@ -1,0 +1,6 @@
+services:
+    Neckarpixel\NpgridtoolsBundle\EventListener\GridClassListener:
+        public: true
+
+    Neckarpixel\NpgridtoolsBundle\EventListener\GridPaletteListener:
+        public: true
