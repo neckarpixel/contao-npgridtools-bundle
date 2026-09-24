@@ -72,6 +72,19 @@ class GridClassListener
         if ('expert' === $contentModel->gridMode) {
             $classes = [];
 
+            // Bootstrap braucht immer eine Basis-"col"-Klasse
+            // (flex: 1 0 0% aus Bootstraps Grid-CSS). Ohne sie hat das
+            // Element unterhalb des ersten gesetzten Breakpoints (z. B.
+            // wenn nur "col-lg-4" gesetzt ist, aber kein Wert für Xs/Sm/Md)
+            // gar keine Breiten-/Flex-Regel und bricht das Layout auf
+            // kleineren Viewports. Die spätere col-{bp}-{n}-Klasse
+            // überschreibt "col" dank Bootstraps CSS-Reihenfolge trotzdem
+            // korrekt an jedem gesetzten Breakpoint. Tailwinds Grid-Items
+            // brauchen dieses Basis-Verhalten nicht.
+            if (!GridFramework::isTailwind()) {
+                $classes[] = 'col';
+            }
+
             foreach (GridFramework::breakpointSuffixes() as $suffix) {
                 $col = (int) $contentModel->{'gridCol'.$suffix};
                 $offset = (int) $contentModel->{'gridOffset'.$suffix};
